@@ -23,7 +23,7 @@ class Graphing:
                 period_str = ''
 
             url = f"https://financialmodelingprep.com/api/{version}/{endpoint}/{ticker_symbol}?{period_str}apikey={api_key}"
-            print(f"Request URL: {url}")  # Print the URL to verify correctness
+            print(f"Request URL: {url}")  
             response = requests.get(url)
 
             if response.status_code == 200:
@@ -63,7 +63,7 @@ if __name__ == "__main__":
             ebit = ebitda - depreciation_and_amortization
             nopat = ebit * (1 - tax_rate)
 
-            roic = nopat / invested_capital * 100  # Convert ROIC to percentage
+            roic = nopat / invested_capital * 100
             roic_list.append((date, roic))
 
         roic_df = pd.DataFrame(roic_list, columns=['date', 'return on capital']).set_index('date')
@@ -77,7 +77,7 @@ if __name__ == "__main__":
         plt.grid(True)
         plt.xticks(rotation=90)
         
-        # Customize y-axis ticks and labels to show percentage format
+
         plt.gca().set_yticklabels(['{:.0f}%'.format(x) for x in plt.gca().get_yticks()]) 
         
         plt.tight_layout()
