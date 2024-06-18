@@ -56,7 +56,7 @@ class Graphing:
             nopat = ebit * (1 - tax_rate)
 
             invested_capital = invested_capital_df.loc[date, 'invested capital']
-            roic = nopat / invested_capital * 100  # Convert ROIC to percentage
+            roic = nopat / invested_capital * 100 
             roic_list.append((date, roic))
         return pd.DataFrame(roic_list, columns=['date', 'return on capital']).set_index('date')
 
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     ticker = "AAPL"
     graph = Graphing(ticker)
     
-    # Fetch data
+
     balance_sheet = graph.request_fmp_api('v3', 'balance-sheet-statement', ticker, 'annual')
     income_statement = graph.request_fmp_api('v3', 'income-statement', ticker, 'annual')
 
@@ -72,14 +72,14 @@ if __name__ == "__main__":
         balance_sheet_df = pd.DataFrame(balance_sheet).set_index('date')
         income_statement_df = pd.DataFrame(income_statement).set_index('date')
 
-        # Calculate invested capital
+
         invested_capital_df = graph.calculate_invested_capital(balance_sheet_df)
 
-        # Calculate ROIC
+
         roic_df = graph.calculate_roic(income_statement_df, invested_capital_df)
         roic_df = roic_df.iloc[::-1]
 
-        # Plotting
+
         plt.figure(figsize=(10, 6))
         plt.bar(roic_df.index, roic_df['return on capital'], color='b', alpha=0.7)
         plt.title('Return on Invested Capital (ROIC) Over Time')
@@ -88,7 +88,7 @@ if __name__ == "__main__":
         plt.grid(True)
         plt.xticks(rotation=90)
         
-        # Customize y-axis ticks and labels to show percentage format
+
         plt.gca().set_yticklabels(['{:.0f}%'.format(x) for x in plt.gca().get_yticks()]) 
         
         plt.tight_layout()
